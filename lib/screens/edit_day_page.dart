@@ -55,11 +55,10 @@ class _EditDayPageState extends State<EditDayPage> {
               margin: const EdgeInsets.symmetric(vertical: 20),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.orangeAccent,
-                // gradient: const LinearGradient(
-                //     colors: [Colors.deepPurpleAccent, Colors.cyanAccent])
-              ),
+                  borderRadius: BorderRadius.circular(10),
+                  // color: Colors.orangeAccent,
+                  gradient: const LinearGradient(
+                      colors: [Colors.deepPurpleAccent, Colors.cyanAccent])),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -67,7 +66,10 @@ class _EditDayPageState extends State<EditDayPage> {
                     Center(
                         child: Text(
                       dayTitle,
-                      style: editPageStyle(),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 252, 248, 253),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600),
                     )),
                     SingleChildScrollView(
                       child: Form(
@@ -98,10 +100,12 @@ class _EditDayPageState extends State<EditDayPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text(
-            //"Σημερινές ώρες"
-            "Today's hours",
-            style: editPageStyle(),
+          const Text(
+            "Σημερινές ώρες",
+            style: TextStyle(
+                color: Color.fromARGB(255, 252, 248, 253),
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(width: 60),
           InkWell(
@@ -113,6 +117,7 @@ class _EditDayPageState extends State<EditDayPage> {
               child: const Icon(
                 Icons.add,
                 size: 30,
+                color: Colors.deepPurpleAccent,
               ),
             ),
           )
@@ -166,8 +171,6 @@ class _EditDayPageState extends State<EditDayPage> {
       return;
     }
 
-  
-
     Map<String, dynamic> newHours = {};
     int newDuration = 0;
 
@@ -220,10 +223,14 @@ class _EditDayPageState extends State<EditDayPage> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          "Total Hours Today",
-          // "Σύνολο",
-          style: editPageStyle(),
+        const Text(
+          // "Total Hours Today",
+          "Σύνολο",
+
+          style: TextStyle(
+              color: Color.fromARGB(255, 252, 248, 253),
+              fontSize: 20,
+              fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 15),
         Row(
@@ -286,13 +293,16 @@ class _EditDayPageState extends State<EditDayPage> {
             ),
             child: SizedBox(
               width: 80,
-              child: hoursTextFieldStart(startController, endController!),
+              child: hoursTextFieldStart(startController, endController),
             ),
           ),
           const SizedBox(width: 10),
-          Text(
+          const Text(
             "-",
-            style: editPageStyle(),
+            style: TextStyle(
+                color: Color.fromARGB(255, 252, 248, 253),
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
           ),
           const SizedBox(width: 15),
           Container(
@@ -313,11 +323,9 @@ class _EditDayPageState extends State<EditDayPage> {
 
   TextFormField hoursTextFieldEnd(TextEditingController? endController,
       TextEditingController startController) {
-  
     return TextFormField(
       keyboardType: TextInputType.datetime,
       textAlign: TextAlign.center,
-      
       style: editPageStyle(),
       controller: endController,
       validator: (value) {
@@ -378,8 +386,6 @@ class _EditDayPageState extends State<EditDayPage> {
 
   TextFormField hoursTextFieldStart(TextEditingController? startController,
       TextEditingController endController) {
-    
-
     return TextFormField(
       keyboardType: TextInputType.datetime,
       textAlign: TextAlign.center,

@@ -5,7 +5,6 @@ void resetDialog(BuildContext context, void Function()? onPressed) =>
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              backgroundColor: Colors.tealAccent,
               title: Text(
                 "Ουπς!",
                 style: TextStyle(
@@ -15,9 +14,9 @@ void resetDialog(BuildContext context, void Function()? onPressed) =>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Αν πατησεις 'ναι' θα μηδενίσεις το χρονόμετρο.",
+                    "Αν πατησεις 'Ναι' θα μηδενίσεις το χρονόμετρο.\nΣυνέχεια;",
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         color: customDialogPink(),
                         fontWeight: FontWeight.bold),
                   )

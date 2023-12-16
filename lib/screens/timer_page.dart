@@ -7,7 +7,6 @@ import 'package:kids_app/componets/page_router.dart';
 import 'package:kids_app/controllers/calendar_controller.dart';
 import 'package:kids_app/screens/calendar_page.dart';
 import 'package:kids_app/styles/text_styles.dart';
-import 'package:sqlite_viewer/sqlite_viewer.dart';
 
 class TimerPage extends StatefulWidget {
   const TimerPage({Key? key}) : super(key: key);
@@ -87,103 +86,148 @@ class _TimerPageState extends State<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
+    var hour = DateTime.now().hour;
+
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              height: MediaQuery.of(context).size.height * 0.60,
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                // gradient: const LinearGradient(
-                //     colors: [Colors.deepPurpleAccent, Colors.cyanAccent])
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const SizedBox(height: 40),
-                    // photos
-                    InkWell(
-                      onTap: () {
-                        completeDialog(context, _saveTime);
-                      },
-                      child: const CircleAvatar(
-                        backgroundImage: null,
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const DatabaseList()));
-                        },
-                        child: const Text("See DB")),
-
-                    //timer
-                    Column(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              hour > 12
+                  ? Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          _controller.text,
-                          style: timerStyle(),
+                        Center(
+                          child: Image.asset(
+                            isRunning
+                                ? "images/test.gif"
+                                : "images/sleeping-pony-still.png",
+                            height: 180,
+                            width: 180,
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                resetDialog(context, () {
-                                  resetTimer();
-                                  Navigator.pop(context);
-                                });
-                              },
-                              child: const Icon(
-                                Icons.restart_alt,
-                                size: 45,
+                      ],
+                    )
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        isRunning
+                            ? const SizedBox(height: 0)
+                            : const SizedBox(
+                                height: 30,
                               ),
-                            ),
-                            ElevatedButton(
-                                onPressed: startPauseTimer,
-                                child: Icon(
-                                  isRunning
-                                      ? Icons.pause_circle
-                                      : Icons.not_started,
-                                  size: 45,
-                                )),
-                          ],
+                        Center(
+                          child: Image.asset(
+                            isRunning
+                                ? "images/bouncing-pony.gif"
+                                : "images/bouncing-pony-still.png",
+                            height: isRunning ? 150.0 : 120,
+                            width: isRunning ? 150.0 : 120,
+                          ),
                         ),
                       ],
                     ),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.60,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    // color: Colors.white,
+                    gradient: const LinearGradient(
+                        colors: [Colors.deepPurpleAccent, Colors.cyanAccent])),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const SizedBox(height: 40),
+                      isRunning
+                          ? ElevatedButton(
+                              onPressed: () {
+                                completeDialog(context, _saveTime);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      30.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.check_circle,
+                                color: Colors.deepPurpleAccent,
+                                size: 50,
+                              ),
+                            )
+                          : const SizedBox(height: 50),
 
-                    //flutter_staggered_animations 1.1.1
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white),
-                      child: InkWell(
+                      // TextButton(
+                      //     onPressed: () {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //               builder: (_) => const DatabaseList()));
+                      //     },
+                      //     child: const Text("See db")),
+
+                      //timer
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 30),
+                          Text(
+                            _controller.text,
+                            style: timerStyle(),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  resetDialog(context, () {
+                                    resetTimer();
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                child: const Icon(
+                                  Icons.restart_alt,
+                                  size: 45,
+                                ),
+                              ),
+                              ElevatedButton(
+                                  onPressed: startPauseTimer,
+                                  child: Icon(
+                                    isRunning
+                                        ? Icons.pause_circle
+                                        : Icons.not_started,
+                                    size: 45,
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 50),
+
+                      //flutter_staggered_animations 1.1.1
+                      InkWell(
                         onTap: () {
                           Navigator.of(context).push(
                               CustomPageRouter.fadeThroughPageRoute(
                                   const CalendarPage()));
                         },
-                        child: const Icon(
-                          Icons.calendar_month_outlined,
-                          size: 80,
-                          color: Colors.deepPurpleAccent,
+                        child: Image.asset(
+                          "images/calendar.gif",
+                          height: 130.0,
+                          width: 130.0,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

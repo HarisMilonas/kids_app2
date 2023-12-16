@@ -142,11 +142,15 @@ class _CalendarPageState extends State<CalendarPage> {
 
   ListTile headerTile(String headerTitle) {
     return ListTile(
-      tileColor: Colors.white,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0), // Adjust the radius as needed
+  ),
+      textColor: Colors.deepPurpleAccent,
+      tileColor: const Color.fromARGB(255, 252, 202, 254),
       title: Center(
         child: Text(
           headerTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
         ),
       ),
     );
@@ -239,7 +243,16 @@ class _CalendarPageState extends State<CalendarPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
-            children: [Text(dayOfWeek), Text(dayOfMonth)],
+            children: [
+              Text(
+                dayOfWeek,
+                style: const TextStyle(
+                    color: Colors.deepPurple, fontWeight: FontWeight.w600),
+              ),
+              Text(dayOfMonth,
+                  style: const TextStyle(
+                      color: Colors.deepPurple, fontWeight: FontWeight.w600))
+            ],
           ),
         ),
       ),
@@ -287,3 +300,6 @@ class _CalendarPageState extends State<CalendarPage> {
     return weekDates;
   }
 }
+
+
+      

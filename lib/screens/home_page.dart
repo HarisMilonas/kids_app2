@@ -39,14 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: AnimatedTextKit(
                   isRepeatingAnimation: false,
                   animatedTexts: [
-                    TyperAnimatedText("LaLizas ",
-                        // 'Γεια σου και πάλι τάδε!',
+                    TyperAnimatedText(
+                      // "LaLizas ",
+                        'Γεια σου και πάλι τάδε!',
                         textStyle: headerStyles()),
-                    TyperAnimatedText("This is ",
-                        // 'Ήρθε μήπως η ώρα\nνα φορέσουμε το\n  μασελάκι μας;',
+                    TyperAnimatedText(
+                      // "This is ",
+                        'Ήρθε μήπως η ώρα\nνα φορέσουμε το\n  μασελάκι μας;',
                         textStyle: headerStyles()),
-                    TyperAnimatedText("Lets go",
-                        // 'Φύγαμε!',
+                    TyperAnimatedText(
+                      // "Lets go",
+                        'Φύγαμε!',
                         textStyle: headerStyles()),
                   ],
                   onFinished: () {

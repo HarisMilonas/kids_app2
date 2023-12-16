@@ -23,6 +23,7 @@ TextStyle timerStyle() {
 
 TextStyle editPageStyle() {
   return const TextStyle(
+    color: Colors.deepPurpleAccent,
     fontSize: 20,
     fontWeight: FontWeight.w700,
   );

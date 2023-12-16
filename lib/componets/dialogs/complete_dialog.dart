@@ -6,8 +6,8 @@ void completeDialog(BuildContext context, void Function()? onPressed) =>
         context: context,
         builder: (context) => AlertDialog(
               title: Text(
-                // "Έβγαλες το μασελάκι σου;",
-                "Complete service?",
+                "Έβγαλες το μασελάκι σου;",
+                // "Complete service?",
                 style: TextStyle(
                     color: customDialogPink(), fontWeight: FontWeight.bold),
               ),
@@ -15,8 +15,8 @@ void completeDialog(BuildContext context, void Function()? onPressed) =>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    // "Να σταματησω το χρονομετρο;",
-                    "do you want to stop the timer",
+                    "Να σταματησω το χρονομετρο;",
+                    // "do you want to stop the timer",
                     style: TextStyle(
                         fontSize: 16,
                         color: customDialogPink(),
