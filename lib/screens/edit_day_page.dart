@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kids_app/componets/back_button.dart';
 import 'package:kids_app/componets/snackbars.dart';
 import 'package:kids_app/controllers/calendar_controller.dart';
 import 'package:kids_app/models/calendar.dart';
@@ -39,6 +40,13 @@ class _EditDayPageState extends State<EditDayPage> {
   }
 
   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -49,6 +57,8 @@ class _EditDayPageState extends State<EditDayPage> {
         }
       },
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+        floatingActionButton: CustomBack(onTap: () => Navigator.pop(context)),
         body: Center(
           child: Container(
               width: double.infinity,
@@ -178,15 +188,16 @@ class _EditDayPageState extends State<EditDayPage> {
       DateTime startTime = DateFormat('HH:mm').parse(controllersList[i].text);
       DateTime endTime = DateFormat('HH:mm').parse(controllersList[i + 1].text);
 
-      newHours.isNotEmpty
-          ? newHours.addAll({
-              DateFormat('HH:mm').format(startTime): "start",
-              DateFormat('HH:mm').format(endTime): "end"
-            })
-          : newHours = {
-              DateFormat('HH:mm').format(startTime): "start",
-              DateFormat('HH:mm').format(endTime): "end"
-            };
+      // newHours.isNotEmpty
+      //     ?
+      newHours.addAll({
+        DateFormat('HH:mm').format(startTime): "start",
+        DateFormat('HH:mm').format(endTime): "end"
+      });
+      // : newHours = {
+      //     DateFormat('HH:mm').format(startTime): "start",
+      //     DateFormat('HH:mm').format(endTime): "end"
+      //   };
 
       // Calculate the duration using Duration constructor
       Duration twentyFourduration;
@@ -202,16 +213,17 @@ class _EditDayPageState extends State<EditDayPage> {
 
       // Accumulate the durations in minutes
       newDuration += twentyFourduration.inMinutes;
-
-      widget.selectedDay.details = newHours;
-      widget.selectedDay.duration = newDuration.toString();
-
-      await CalendarController.updateDay(widget.selectedDay);
-      setState(() {
-        hours = newHours;
-        duration = newDuration.toString();
-      });
     }
+
+    widget.selectedDay.details = newHours;
+    widget.selectedDay.duration = newDuration.toString();
+
+    await CalendarController.updateDay(widget.selectedDay);
+    setState(() {
+      hours = newHours;
+      duration = newDuration.toString();
+    });
+
     String message = "Μπράβο!\nΟι νέες ώρες προστέθηκαν με επιτυχια!";
     if (mounted) {
       CustomSnackBar.successMessage(context, message, () {});

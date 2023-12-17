@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
+import 'package:kids_app/componets/back_button.dart';
 import 'package:kids_app/componets/dialogs/load_calendar_page_dialog.dart';
 import 'package:kids_app/componets/page_router.dart';
 import 'package:kids_app/controllers/calendar_controller.dart';
@@ -22,6 +23,13 @@ class _CalendarPageState extends State<CalendarPage> {
 
   final AutoScrollController _controller = AutoScrollController();
 
+   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // after the widget has been build
@@ -30,6 +38,8 @@ class _CalendarPageState extends State<CalendarPage> {
     });
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
+      floatingActionButton: CustomBack(onTap: () => Navigator.pop(context)),
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: FutureBuilder(

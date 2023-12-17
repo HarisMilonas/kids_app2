@@ -22,6 +22,13 @@ class _MyHomePageState extends State<MyHomePage> {
     initializeDateFormatting();
   }
 
+   @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
