@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kids_app/screens/home_page.dart';
+import 'package:HappyTeeth/screens/home_page.dart';
 
 import 'package:intl/intl.dart';
 

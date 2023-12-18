@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:intl/intl.dart';
-import 'package:kids_app/componets/back_button.dart';
-import 'package:kids_app/componets/dialogs/load_calendar_page_dialog.dart';
-import 'package:kids_app/componets/page_router.dart';
-import 'package:kids_app/controllers/calendar_controller.dart';
-import 'package:kids_app/models/calendar.dart';
-import 'package:kids_app/screens/edit_day_page.dart';
-import 'package:kids_app/styles/color_style.dart';
+import 'package:HappyTeeth/componets/back_button.dart';
+import 'package:HappyTeeth/componets/dialogs/load_calendar_page_dialog.dart';
+import 'package:HappyTeeth/componets/page_router.dart';
+import 'package:HappyTeeth/controllers/calendar_controller.dart';
+import 'package:HappyTeeth/models/calendar.dart';
+import 'package:HappyTeeth/screens/edit_day_page.dart';
+import 'package:HappyTeeth/styles/color_style.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -157,11 +157,23 @@ class _CalendarPageState extends State<CalendarPage> {
   ),
       textColor: Colors.deepPurpleAccent,
       tileColor: const Color.fromARGB(255, 252, 202, 254),
-      title: Center(
-        child: Text(
-          headerTitle,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
-        ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Image(
+            width: 30,
+            height: 30,
+            image: AssetImage("images/flying-tooth.gif")),
+          Text(
+            headerTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 19),
+          ),
+          const Image(
+            width: 30,
+            height: 30,
+            image: AssetImage("images/flying-tooth.gif")),
+        ],
       ),
     );
   }

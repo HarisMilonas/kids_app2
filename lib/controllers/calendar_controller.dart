@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kids_app/db/db_helper.dart';
-import 'package:kids_app/models/calendar.dart';
+import 'package:HappyTeeth/db/db_helper.dart';
+import 'package:HappyTeeth/models/calendar.dart';
 
 class CalendarController extends Calendar {
   CalendarController({required super.date});

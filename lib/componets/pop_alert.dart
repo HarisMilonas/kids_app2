@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:kids_app/componets/dialogs/sure_dialog.dart';
+import 'package:HappyTeeth/componets/dialogs/sure_dialog.dart';
 
 class PopAlert extends StatefulWidget {
   final Scaffold myLayout;

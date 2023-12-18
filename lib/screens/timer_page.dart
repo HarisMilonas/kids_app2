@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:kids_app/componets/back_button.dart';
-import 'package:kids_app/componets/dialogs/complete_dialog.dart';
-import 'package:kids_app/componets/dialogs/loading_dialog.dart';
-import 'package:kids_app/componets/dialogs/reset_dialog.dart';
-import 'package:kids_app/componets/dialogs/sure_dialog.dart';
-import 'package:kids_app/componets/pop_alert.dart';
-import 'package:kids_app/componets/page_router.dart';
-import 'package:kids_app/controllers/calendar_controller.dart';
-import 'package:kids_app/screens/calendar_page.dart';
-import 'package:kids_app/styles/text_styles.dart';
+import 'package:HappyTeeth/componets/back_button.dart';
+import 'package:HappyTeeth/componets/dialogs/complete_dialog.dart';
+import 'package:HappyTeeth/componets/dialogs/loading_dialog.dart';
+import 'package:HappyTeeth/componets/dialogs/reset_dialog.dart';
+import 'package:HappyTeeth/componets/dialogs/sure_dialog.dart';
+import 'package:HappyTeeth/componets/pop_alert.dart';
+import 'package:HappyTeeth/componets/page_router.dart';
+import 'package:HappyTeeth/controllers/calendar_controller.dart';
+import 'package:HappyTeeth/screens/calendar_page.dart';
+import 'package:HappyTeeth/styles/text_styles.dart';
 
 class TimerPage extends StatefulWidget {
   const TimerPage({Key? key}) : super(key: key);

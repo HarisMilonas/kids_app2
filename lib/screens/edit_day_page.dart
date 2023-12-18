@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kids_app/componets/back_button.dart';
-import 'package:kids_app/componets/snackbars.dart';
-import 'package:kids_app/controllers/calendar_controller.dart';
-import 'package:kids_app/models/calendar.dart';
-import 'package:kids_app/styles/text_styles.dart';
+import 'package:HappyTeeth/componets/back_button.dart';
+import 'package:HappyTeeth/componets/snackbars.dart';
+import 'package:HappyTeeth/controllers/calendar_controller.dart';
+import 'package:HappyTeeth/models/calendar.dart';
+import 'package:HappyTeeth/styles/text_styles.dart';
 
 class EditDayPage extends StatefulWidget {
   const EditDayPage({
@@ -49,6 +49,7 @@ class _EditDayPageState extends State<EditDayPage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         // to remove the cursor everytime the user taps outside a textField!
         final FocusScopeNode currentScope = FocusScope.of(context);
@@ -104,6 +105,17 @@ class _EditDayPageState extends State<EditDayPage> {
     List<Widget> items = [];
 
     items.add(const SizedBox(height: 50));
+    items.add(const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Image(
+            width: 70, height: 70, image: AssetImage('images/banana-pony.gif')),
+        Image(
+            width: 70, height: 70, image: AssetImage('images/banana-pony.gif'))
+      ],
+    ));
+
+    items.add(const SizedBox(height: 15));
 
     items.add(Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),

@@ -1,6 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:kids_app/styles/color_style.dart';
+import 'package:HappyTeeth/styles/color_style.dart';
 
 Future<bool?> isSureDialog(BuildContext context, GifController controller ) async {
     bool? confirm = await showDialog(

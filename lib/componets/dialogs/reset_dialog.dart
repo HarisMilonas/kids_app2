@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kids_app/styles/color_style.dart';
+import 'package:HappyTeeth/styles/color_style.dart';
 
 void resetDialog(BuildContext context, void Function()? onPressed) =>
     showDialog(
