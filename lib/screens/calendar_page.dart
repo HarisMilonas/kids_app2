@@ -220,25 +220,19 @@ class _CalendarPageState extends State<CalendarPage> {
       String dayOfMonth,
       List<Calendar> calendarDays) {
     double weekDuration = 0;
-    // get the day hours
-    double? dayDuration = double.tryParse(item["duration"] ?? '0');
-    String hours;
-    dayDuration != null || dayDuration != 0
-        ? hours = (dayDuration! / 60).toStringAsFixed(1)
-        : hours = '0';
+ 
+  
 
     //get teh week hours of the day
     DateTime formatedDate = DateTime.parse(item['date']);
     List<String> weekDays = getWeekDates(formatedDate);
     for (Calendar day in calendarDays) {
       if (weekDays.contains(day.date)) {
-        double? dbDuration = double.tryParse(day.duration ?? "0");
-        if (dbDuration != 0) {
-          dbDuration = dbDuration! / 60;
-        }
-        weekDuration += dbDuration!;
+        double dayTotal = getTotalDayHours(day);
+        weekDuration += dayTotal;
       }
     }
+    String hours = getTotalDayHours(Calendar.fromMap(item)).toStringAsFixed(1);
 
     return Tooltip(
       triggerMode: TooltipTriggerMode.longPress,
@@ -320,6 +314,33 @@ class _CalendarPageState extends State<CalendarPage> {
     }
 
     return weekDates;
+  }
+
+
+    double getTotalDayHours(Calendar day) {
+    double sum = 0.0;
+    if (day.details != null) {
+      for (var map in day.details!) {
+        if (map.containsKey("start") && map.containsKey("end")) {
+          sum += timeDifference(map["start"], map["end"]);
+        }
+      }
+    }
+    return sum;
+  }
+
+  double timeDifference(String startTime, String endTime) {
+    // Convert the start and end times to minutes
+    int startMinutes = int.parse(startTime.split(":")[0]) * 60 +
+        int.parse(startTime.split(":")[1]);
+    int endMinutes = int.parse(endTime.split(":")[0]) * 60 +
+        int.parse(endTime.split(":")[1]);
+
+    // Calculate the difference in minutes
+    int differenceMinutes = endMinutes - startMinutes;
+
+    // Convert the difference to a double format (or any other desired format)
+    return differenceMinutes.toDouble() / 60;
   }
 }
 

@@ -20,30 +20,21 @@ class EditDayPage extends StatefulWidget {
 
 class _EditDayPageState extends State<EditDayPage> {
   bool readOnly = true;
-  String duration = '';
   String date = '';
-  Map<String, dynamic> hours = {};
+  List<Map<String, dynamic>> hours = [];
   final _formKey = GlobalKey<FormState>();
-  List<TextEditingController> controllersList = [];
+  List<Map<String, dynamic>> controllersList = [];
   String dayTitle = '';
 
   @override
   void initState() {
-    duration = widget.selectedDay.duration ?? '0';
-    hours = widget.selectedDay.details ?? {};
+    hours = widget.selectedDay.details ?? [];
     date = widget.selectedDay.date;
     dayTitle = DateFormat('yMMMMEEEEd').format(DateTime.parse(date));
 
-    _addControllers();
+    addControllers();
 
     super.initState();
-  }
-
-  @override
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
   }
 
   @override
@@ -152,26 +143,25 @@ class _EditDayPageState extends State<EditDayPage> {
       // List<String> keys = hours.keys.toList();
 
       // Iterate through the map, taking two maps at a time
-      for (int i = 0; i < controllersList.length; i += 2) {
-        TextEditingController controllerKeyStart = controllersList[i];
-        TextEditingController? controllerKeyEnd =
-            (i + 1 < controllersList.length) ? controllersList[i + 1] : null;
-
-        var row = hoursRow(controllerKeyStart, controllerKeyEnd);
-
+      for (var map in controllersList) {
+        var row = hoursRow(
+            map['start'],
+            map.containsKey("end")
+                ? map["end"]
+                : map["end"] = TextEditingController());
         items.add(row);
-        items.add(const SizedBox(height: 15));
+        items.add(const SizedBox(height: 10));
       }
     }
+
     double total = 0;
-    if (duration != '0') {
-      total = double.tryParse(duration)! / 60;
+    for (var map in controllersList) {
+      if (map.containsKey("start") && map.containsKey("end")) {
+        total += timeDifference(map["start"].text, map["end"].text);
+      }
     }
     items.add(const SizedBox(height: 20));
     items.add(totalWidget(total));
-    items.add(const SizedBox(height: 50));
-
-    // items.add(sumbitButton());
 
     return items;
   }
@@ -193,47 +183,32 @@ class _EditDayPageState extends State<EditDayPage> {
       return;
     }
 
-    Map<String, dynamic> newHours = {};
-    int newDuration = 0;
+    List<Map<String, dynamic>> newHours = [];
 
-    for (int i = 0; i < controllersList.length; i += 2) {
-      DateTime startTime = DateFormat('HH:mm').parse(controllersList[i].text);
-      DateTime endTime = DateFormat('HH:mm').parse(controllersList[i + 1].text);
+    for (int i = 0; i < controllersList.length; i++) {
+      DateTime startTime =
+          DateFormat('HH:mm').parse(controllersList[i]["start"].text);
+      DateTime endTime =
+          DateFormat('HH:mm').parse(controllersList[i]["end"].text);
 
-      // newHours.isNotEmpty
-      //     ?
-      newHours.addAll({
-        DateFormat('HH:mm').format(startTime): "start",
-        DateFormat('HH:mm').format(endTime): "end"
-      });
-      // : newHours = {
-      //     DateFormat('HH:mm').format(startTime): "start",
-      //     DateFormat('HH:mm').format(endTime): "end"
-      //   };
-
-      // Calculate the duration using Duration constructor
-      Duration twentyFourduration;
-      if (endTime.isAfter(startTime)) {
-        twentyFourduration = endTime.difference(startTime);
-      } else {
-        // If the end time is earlier than the start time (crossing midnight)
-        twentyFourduration = Duration(
-          hours: 24 - startTime.hour + endTime.hour,
-          minutes: endTime.minute - startTime.minute,
-        );
-      }
-
-      // Accumulate the durations in minutes
-      newDuration += twentyFourduration.inMinutes;
+      newHours.isNotEmpty
+          ? newHours.add({
+              "start": DateFormat('HH:mm').format(startTime),
+              "end": DateFormat('HH:mm').format(endTime)
+            })
+          : newHours = [
+              {
+                "start": DateFormat('HH:mm').format(startTime),
+                "end": DateFormat('HH:mm').format(endTime)
+              }
+            ];
     }
 
     widget.selectedDay.details = newHours;
-    widget.selectedDay.duration = newDuration.toString();
-
     await CalendarController.updateDay(widget.selectedDay);
+
     setState(() {
       hours = newHours;
-      duration = newDuration.toString();
     });
 
     String message = "Μπράβο!\nΟι νέες ώρες προστέθηκαν με επιτυχια!";
@@ -256,7 +231,7 @@ class _EditDayPageState extends State<EditDayPage> {
               fontSize: 20,
               fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 10),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -274,13 +249,14 @@ class _EditDayPageState extends State<EditDayPage> {
               ),
             ),
           ],
-        )
+        ),
+        SizedBox(height: 30),
       ],
     );
   }
 
   Widget hoursRow(TextEditingController startController,
-      TextEditingController? endController) {
+      TextEditingController endController) {
     return Dismissible(
       background: const Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -294,17 +270,12 @@ class _EditDayPageState extends State<EditDayPage> {
           )
         ],
       ),
-      key: GlobalObjectKey(
-          {startController.text: "start", endController!.text: "end"}),
+      key: GlobalObjectKey({startController.text: endController.text}),
       onDismissed: (direction) {
-        if (hours.containsKey(startController.text) &&
-            hours.containsKey(endController.text)) {
-          setState(() {
-            hours.removeWhere((key, value) => key == startController.text);
-            hours.removeWhere((key, value) => key == endController.text);
-            _addControllers();
-          });
-        }
+        // String? endText = endController?.text;
+
+        controllersList.removeWhere((map) =>
+            map["start"] == startController && map["end"] == endController);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -399,12 +370,24 @@ class _EditDayPageState extends State<EditDayPage> {
     );
   }
 
-  void _addControllers() {
+  void addControllers() {
     controllersList = [];
+
     if (hours.isNotEmpty) {
-      hours.forEach((key, value) {
-        controllersList.add(TextEditingController(text: key));
-      });
+      for (var map in hours) {
+        if (map.containsKey("start") && map.containsKey("end")) {
+          controllersList.add({
+            "start": TextEditingController(text: map["start"]),
+            "end": TextEditingController(text: map["end"]),
+          });
+        }
+        if (map.containsKey("start") && !map.containsKey("end")) {
+          controllersList.add({
+            "start": TextEditingController(text: map["start"]),
+            "end": TextEditingController(),
+          });
+        }
+      }
     }
   }
 
@@ -460,8 +443,38 @@ class _EditDayPageState extends State<EditDayPage> {
 
   void _addHours() {
     setState(() {
-      hours.addAll({"99:98": "start", "99:99": "end"});
-      _addControllers();
+      hours.add({"start": "", "end": ""});
+      addControllers();
     });
+  }
+
+  double timeDifference(String startTime, String endTime) {
+    if (endTime.isEmpty) {
+      return 0;
+    }
+    // Convert the start and end times to minutes
+    int startMinutes = int.parse(startTime.split(":")[0]) * 60 +
+        int.parse(startTime.split(":")[1]);
+
+    int endMinutes = int.parse(endTime.split(":")[0]) * 60 +
+        int.parse(endTime.split(":")[1]);
+
+    // Calculate the difference in minutes
+    int differenceMinutes = endMinutes - startMinutes;
+
+    // Convert the difference to a double format (or any other desired format)
+    return differenceMinutes.toDouble() / 60;
+  }
+
+  double getTotalDayHours(Calendar day) {
+    double sum = 0.0;
+    if (day.details != null) {
+      for (var map in day.details!) {
+        if (map.containsKey("start") && map.containsKey("end")) {
+          sum += timeDifference(map["start"], map["end"]);
+        }
+      }
+    }
+    return sum;
   }
 }

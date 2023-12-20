@@ -4,7 +4,7 @@ class Calendar {
   int? id;
   String date;
   String? duration; // total duration
-  Map<String, dynamic>? details; // detailed hours in the day
+  List<Map<String, dynamic>>? details;  // detailed hours in the day
   String? comments;
 
   Calendar(
@@ -19,7 +19,11 @@ class Calendar {
         id: map['id'],
         date: map["date"],
         duration: map['duration'],
-        details: map['details'] != null ? jsonDecode(map['details']) : null,
+              details: map['details'] != null 
+    ? (jsonDecode(map['details']) is List 
+        ? (jsonDecode(map['details']) as List).cast<Map<String, dynamic>>() 
+        : null) 
+    : null,
         comments: map["comments"]);
   }
 

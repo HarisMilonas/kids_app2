@@ -27,6 +27,12 @@ TextStyle editPageStyle() {
     fontSize: 20,
     fontWeight: FontWeight.w700,
   );
-
-  
 }
+
+TextStyle timerPageStyle() {
+    return const TextStyle(
+      color: Color.fromARGB(255, 242, 78, 248),
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+    );
+  }
